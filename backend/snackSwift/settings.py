@@ -142,5 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Overwriting the default settings in rest_framework
 
 REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING': False
+    'COERCE_DECIMAL_TO_STRING': False,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
