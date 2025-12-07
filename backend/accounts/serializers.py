@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
+class StudentRegistrationSerializer(serializers.ModelSerializer):
     # ------------------------------------------------------------------------------
     # Explicitly adding these fields since they belong to Profile, not User model
     # ------------------------------------------------------------------------------
