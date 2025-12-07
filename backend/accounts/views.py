@@ -37,23 +37,21 @@ class UserProfileView(RetrieveUpdateAPIView):
         # Always returns the currently logged-in user object
         return self.request.user
     
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['profile_serializer'] = ProfileSerializer()
-        return context
-    
     # I override the update method to handle nested Profile update
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
+        
+        # 1. Update User Data (Email, etc.)
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        # If profile data is present, update the profile as well
-        profile_data = request.data.get('profile', {})
+        # 2. Update Profile Data (Safely)
+        profile_data = request.data.get('profile')
         if profile_data:
-            profile_serializer = self.get_serializer_context().get('profile_serializer')
-            if profile_serializer:
-                profile_serializer.update(instance.profile, profile_data)
+            # Initialize serializer with the instance AND data
+            profile_serializer = ProfileSerializer(instance.profile, data=profile_data, partial=True)
+            if profile_serializer.is_valid(raise_exception=True):
+                profile_serializer.save()
         
         return Response(serializer.data)
