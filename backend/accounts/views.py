@@ -46,10 +46,10 @@ class UserProfileView(RetrieveUpdateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        # 2. Update Profile Data (Safely)
+        # 2. Update Profile Data (Safely with Validation)
         profile_data = request.data.get('profile')
         if profile_data:
-            # Initialize serializer with the instance AND data
+            # Use the serializer to serialize & validate data before saving
             profile_serializer = ProfileSerializer(instance.profile, data=profile_data, partial=True)
             if profile_serializer.is_valid(raise_exception=True):
                 profile_serializer.save()
