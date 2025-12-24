@@ -1,0 +1,15 @@
+.profile-container {
+    padding-top: 3rem;
+}
+.profile-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    margin-top: 1rem;
+}
+.profile-info p {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
