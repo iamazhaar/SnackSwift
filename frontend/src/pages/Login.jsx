@@ -1,17 +1,21 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../services/api"; // Import the helper we just created
-import "./LogIn.css";
+import { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import api from "../services/api";
+import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  
+  // Get the login function from AuthContext to update global state
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(null); // Clear previous errors
+    setError(null);
 
     try {
       // 1. Send Credentials to Backend
@@ -20,22 +24,25 @@ function Login() {
         password: password,
       });
 
-      // 2. Save the Tokens
-      // SimpleJWT returns 'access' and 'refresh' tokens
-      localStorage.setItem("access_token", response.data.access);
-      localStorage.setItem("refresh_token", response.data.refresh);
+      // 2. Save the Tokens (Keeping your logic)
+      const { access, refresh } = response.data;
+      localStorage.setItem("access_token", access);
+      localStorage.setItem("refresh_token", refresh);
 
       // 3. Determine User Role
-      // Since standard JWTs don't always have the role, we fetch the profile 
-      // using the token we just saved.
+      // Fetching profile to get the role before redirecting
       const profileResponse = await api.get("accounts/profile/");
       const role = profileResponse.data.role;
 
-      // 4. Redirect based on Role
+      // 4. Update Global Auth State
+      // This triggers the Navbar to change from "Login" to "Profile/Logout"
+      login(access, refresh, role);
+
+      // 5. Redirect based on Role
       if (role === "SHOP_OWNER") {
-        navigate("/dashboard"); // We will build this later
+        navigate("/dashboard");
       } else {
-        navigate("/"); // Redirect Students to Home
+        navigate("/");
       }
 
     } catch (err) {
@@ -78,6 +85,13 @@ function Login() {
             Login
           </button>
         </form>
+
+        {/* Added the redirect link for registration */}
+        <div className="login-footer" style={{ textAlign: "center", marginTop: "1rem" }}>
+          <p>
+            Don't have an account? <Link to="/register" style={{ color: "#007bff", fontWeight: "bold" }}>Register now</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
