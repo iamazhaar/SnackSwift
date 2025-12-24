@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
+import './App.css'
 
 // temporary placeholder components so redirects don't 404
 const StudentHome = () => <h1>Student Home (Shop List)</h1>;
