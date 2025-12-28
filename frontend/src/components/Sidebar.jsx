@@ -36,7 +36,11 @@ const Sidebar = () => {
         </Link>
 
         {user?.shop_id && (
-            <Link to={`/shops/${user.shop_id}`} target="_blank" className="sidebar-link">
+            <Link
+              to={`/shops/${user.shop_id}`}
+              target="_blank"
+              className="sidebar-link"
+            >
                 👀 View Shop
             </Link>
         )}
