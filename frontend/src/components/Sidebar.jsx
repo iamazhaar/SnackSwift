@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import "./Sidebar.css";
 
 const Sidebar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,36 +17,29 @@ const Sidebar = () => {
 
   return (
     <aside className="sidebar">
-      <div className="sidebar-header">
+      <div className="sidebar-logo">
         <h2>SnackSwift 🍔</h2>
-        <span className="badge">Owner</span>
       </div>
 
       <nav className="sidebar-nav">
-        <div className="nav-group">
-            <p className="nav-title">MAIN</p>
-            <Link to="/dashboard" className={isActive("/dashboard")}>
-                📊 Dashboard
-            </Link>
-            <Link to="/menu" className={isActive("/menu")}>
-                🍔 Menu Management
-            </Link>
-            <Link to="/orders-history" className={isActive("/orders-history")}>
-                🕒 Order History
-            </Link>
-        </div>
+        {/* Simplified List - No Categories */}
+        <Link to="/dashboard" className={isActive("/dashboard")}>
+            🛍️ Orders
+        </Link>
+        
+        <Link to="/menu" className={isActive("/menu")}>
+            🍔 Menu
+        </Link>
+        
+        <Link to="/orders-history" className={isActive("/orders-history")}>
+            🕒 History
+        </Link>
 
-        <div className="nav-group">
-            <p className="nav-title">ACCOUNT</p>
-            <Link to="/profile" className={isActive("/profile")}>
-                👤 Profile
+        {user?.shop_id && (
+            <Link to={`/shops/${user.shop_id}`} target="_blank" className="sidebar-link">
+                👀 View Shop
             </Link>
-            {user?.shop_id && (
-                <Link to={`/shops/${user.shop_id}`} target="_blank" className="sidebar-link">
-                    👀 View My Shop ↗
-                </Link>
-            )}
-        </div>
+        )}
       </nav>
 
       <div className="sidebar-footer">
