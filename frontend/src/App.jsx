@@ -4,11 +4,11 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import Dashboard from "./pages/Dashboard";
 import './App.css'
 
 // Temporary placeholder components so redirects don't 404
 const StudentHome = () => <div className="container"><h1>Shop List (Home)</h1></div>;
-const OwnerDashboard = () => <div className="container"><h1>Owner Dashboard</h1></div>;
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
 
           {/* The Destinations (Placeholders for now) */}
           <Route path="/" element={<StudentHome />} />
-          <Route path="/dashboard" element={<OwnerDashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
 
           {/* Catch-all: Redirect unknown URLs to Home for now */}
           <Route path="*" element={<Navigate to="/" replace />} />
