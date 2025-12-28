@@ -78,8 +78,7 @@ return (
       {/* Header Section */}
       <div className="dashboard-header">
         <div>
-            <h1>Shop Command Center</h1>
-            <p>Manage your orders and menu efficiently.</p>
+            <h1>Orders</h1>
         </div>
         <button className="btn-primary" onClick={fetchOrders}>Refresh Data 🔄</button>
       </div>
