@@ -42,9 +42,17 @@ class ShopSerializer(serializers.ModelSerializer):
 class MenuItemSerializer(serializers.ModelSerializer):
     # -------------------------------------------------------------------------------
     # Serializing Relationship (Nested Object Method)
-    # Nesting Category to Show Full Details (name/description) Instead of Just ID
+    # For Reading: Shows the full category object (id, name, desc)
     # -------------------------------------------------------------------------------
     category = CategorySerializer(read_only=True)
+
+    # For Writing: Accepts a Category ID (e.g., 5)
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset = Category.objects.all(),
+        source = 'category',
+        write_only=True,
+        required=False
+    )
 
     # ------------------------------------------------------------
     # Keeping 'shop' as an ID is Usually Sufficient for Linking
