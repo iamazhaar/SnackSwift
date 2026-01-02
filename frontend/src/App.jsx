@@ -10,13 +10,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import MenuManager from "./pages/MenuManager";
 
-// CSS
-import './App.css'
+import './App.css';
 
-// Temporary placeholder components so redirects don't 404
+// Temporary placeholder
 const StudentHome = () => <div className="container" style={{paddingTop: '2rem'}}><h1>Shop List (Home)</h1></div>;
-const MenuManager = () => <h1>Menu Management Page</h1>;
 
 function App() {
   return (
@@ -31,10 +30,6 @@ function App() {
             <Route path="/" element={<StudentHome />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            
-            {/* Note: Profile could technically go in either layout depending on role. 
-                For simplicity, let's keep basic Profile here for now, 
-                or duplicate the route in DashboardLayout if you want a different look. */}
             <Route path="/profile" element={<Profile />} />
           </Route>
 
@@ -42,14 +37,15 @@ function App() {
           {/* ------------------------------------------- */}
           {/* LAYOUT 2: SHOP OWNER (Has Sidebar)          */}
           {/* ------------------------------------------- */}
-          <Route path="/dashboard" element={<DashboardLayout />}>
-             {/* When URL is /dashboard, it renders DashboardLayout -> Outlet -> Dashboard */}
-             <Route index element={<Dashboard />} /> 
+          {/* FIX: Removed 'path="/dashboard"' from the wrapper below */}
+          <Route element={<DashboardLayout />}>
              
-             {/* Future Owner Pages */}
-             <Route path="menu" element={<MenuManager />} />
+             {/* Now we define the full paths for each page here */}
+             <Route path="/dashboard" element={<Dashboard />} /> 
+             <Route path="/menu" element={<MenuManager />} />
+             <Route path="/orders-history" element={<div>Order History Coming Soon</div>} />
+             
           </Route>
-
 
           {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
