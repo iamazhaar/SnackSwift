@@ -150,6 +150,11 @@ REST_FRAMEWORK = {
     ),
 }
 
+# For Authenticating Custom Users
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 # ---------------------------------
 # CORS CONFIGURATION
 # ---------------------------------
