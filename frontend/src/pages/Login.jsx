@@ -18,38 +18,34 @@ function Login() {
     setError(null);
 
     try {
-      // 1. Send Credentials to Backend
-      const response = await api.post("accounts/login/", {
-        email: email,
-        password: password,
+      // 1. Login (email-based)
+      const res = await api.post("accounts/login/", {
+        email,
+        password,
       });
 
-      // 2. Save the Tokens (Keeping your logic)
-      const { access, refresh } = response.data;
+      const { access, refresh } = res.data;
+
+      // 2. Store tokens
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
 
-      // 3. Determine User Role
-      // Fetching profile to get the role before redirecting
-      const profileResponse = await api.get("accounts/profile/");
-      const role = profileResponse.data.role;
+      // 3. Fetch profile (NO manual headers)
+      const profileRes = await api.get("accounts/profile/");
+      const { role, shop } = profileRes.data;
 
-      // 4. Update Global Auth State
-      // This triggers the Navbar to change from "Login" to "Profile/Logout"
-      login(access, refresh, role);
+      // 4. Update auth state
+      login(access, refresh, role, shop);
 
-      // 5. Redirect based on Role
-      if (role === "SHOP_OWNER") {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
+      // 5. Redirect
+      navigate(role === "SHOP_OWNER" ? "/dashboard" : "/");
 
     } catch (err) {
-      console.error("Login failed", err);
+      console.error(err.response?.data || err);
       setError("Invalid email or password.");
     }
   };
+
 
   return (
     <div className="login-container">
